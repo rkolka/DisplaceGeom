@@ -1,0 +1,31 @@
+--DisplaceGeom
+--Manifold Release 9 Add-in created by Riivo Kolka in 2019.
+
+
+
+-- $manifold$
+
+-- GeomUpdateCoord builds a new geom from `geom` where coord at `index` is replaced with `newCoord`
+FUNCTION GeomUpdateCoord(@geom GEOM, @index INT32, @newCoord FLOAT64x2) GEOM AS SCRIPT FILE 'DisplaceGeom.dll' ENTRY 'Script.GeomUpdateCoord';
+
+-- GeomAdjustCoord builds a new geom from `geom` where coord at `index` is moved to `newCoord` and nearby coords are adjusted according to distance from change origin. 
+-- Line endpoints are not adjusted, unless referred by `index`.
+FUNCTION GeomAdjustCoord(@geom GEOM, @index INT32, @newCoord FLOAT64x2) GEOM AS SCRIPT FILE 'DisplaceGeom.dll' ENTRY 'Script.GeomAdjustCoord';
+
+--testing:
+
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 0, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 1, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 2, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 3, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 4, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 5, VectorMakeX2(6,6)))
+?GeomWkt(GeomUpdateCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), -1, VectorMakeX2(6,6)))
+
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 0, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 1, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 2, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 3, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 4, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), 5, VectorMakeX2(6,6)))
+?GeomWkt(GeomAdjustCoord(StringWktGeom('LINESTRING(0 1, 0 2, 0 3, 0 4, 0 5)'), -1, VectorMakeX2(6,6)))
