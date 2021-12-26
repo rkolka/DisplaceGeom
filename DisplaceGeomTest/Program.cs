@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DisplaceGeomTest
 {
@@ -24,7 +20,7 @@ namespace DisplaceGeomTest
                 {
                     Script.CreateQueries(app, db);
                     db.Save();
-                 
+
                 }
             }
         }

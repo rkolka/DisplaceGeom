@@ -244,7 +244,6 @@ public class Script
             if (rewrite)
             {
                 string text = File.ReadAllText(AddinDir + "\\" + fname);
-                // TODO? check hash?
 
                 // insert
                 CreateQuery(app, db, fname, text, AddinCodeFolder);
