@@ -8,8 +8,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  # This workflow contains a single job called "release"
+  release:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -18,12 +18,34 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.1
 
+        
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          msbuild.exe DisplaceGeom.sln /p:platform=x64 /p:configuration=Release /t:Rebuild
+          echo DisplaceGeom Built.
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: DisplaceGeom Zip 
+        run: 7z a -tzip ./DisplaceGeom.zip ./DisplaceGeom/bin/Release/*
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DisplaceGeom.zip
+          asset_name: DisplaceGeom.zip
+          asset_content_type: application/zip
