@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="extnet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=058e4cb7a1c54ee9, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Manifold\v9.0\bin64\extnet.dll</HintPath>
+      <HintPath>C:\Program Files\Manifold\v9.0\extnet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
